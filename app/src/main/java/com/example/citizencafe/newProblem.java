@@ -16,6 +16,10 @@ public class newProblem extends AppCompatActivity {
     //below function is to give back the new probelm title and statemnt to main activity
     public void giveback(View view){
 
+        MainActivity.title_list.add(problem_entry.getText().toString());
+        MainActivity.problems_list.add(statement_entry.getText().toString());
+        MainActivity.arrayAdapter.notifyDataSetChanged();
+        finish();
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {

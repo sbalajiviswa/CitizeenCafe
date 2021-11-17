@@ -3,9 +3,11 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Udemy/CitizenCafe/app/src/main/res/drawable-v24/roundedbutton.xml" value="0.28615384615384615" />
         <entry key="..\:/Udemy/CitizenCafe/app/src/main/res/layout/activity_main.xml" value="0.27447916666666666" />
         <entry key="..\:/Udemy/CitizenCafe/app/src/main/res/layout/activity_new_problem.xml" value="0.2604166666666667" />
         <entry key="..\:/Udemy/CitizenCafe/app/src/main/res/layout/activity_problem_list.xml" value="0.27447916666666666" />
+        <entry key="..\:/Udemy/CitizenCafe/app/src/main/res/layout/activity_signup.xml" value="0.27447916666666666" />
       </map>
     </option>
   </component>

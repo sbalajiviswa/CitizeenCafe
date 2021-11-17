@@ -12,7 +12,7 @@ public class problemListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_problem_list);
-        //varable declaration stuff
+        //variable declaration stuff
         TextView textView = findViewById(R.id.textView);
         TextView textView1 = findViewById(R.id.textView2);
 

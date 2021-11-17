@@ -15,9 +15,13 @@ import android.widget.ListView;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
-    ArrayList<String> title_list = new ArrayList<>();
-    ArrayList<String> problems_list = new ArrayList<>();
-    ArrayAdapter arrayAdapter;
+    static ArrayList<String> title_list = new ArrayList<>();
+    static ArrayList<String> problems_list = new ArrayList<>();
+    static  ArrayList<String> city_list = new ArrayList<>();
+    static ArrayAdapter arrayAdapter;
+
+
+
     // bringing up the new activity for entering new problem title andproblem statement
     public void add_problem(View view){
         Intent intent = new Intent(getApplicationContext(),newProblem.class);
@@ -27,36 +31,38 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        city_list.add("coimbatore");
+        city_list.add("chennai");
         ListView listView = findViewById(R.id.listview);// the list view for showing the list of problem titles
         arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, title_list); // the list view 's array adapter
-        listView.setAdapter(arrayAdapter);
 
-        try{
-
-
-
-
+            listView.setAdapter(arrayAdapter);
             SQLiteDatabase mydatabase = this.openOrCreateDatabase("Users",MODE_PRIVATE,null);
             // created a table named problems in sqlite for storing tile, statement and city names
+
+        mydatabase.execSQL("DROP TABLE problems" );
         mydatabase.execSQL("CREATE TABLE IF NOT EXISTS problems (title VARCHAR, statement VARCHAR, city VARCHAR, id INTEGER PRIMARY KEY)");
 
-        /*the below code is suppose to get data from newProblem activity and store
-        it in problems but for some reason it is not doing
-           but breaking the code*/
+            //Creating new problem is no longer a problem
+            //Inent stuff is commented if you wish to make work feel free to
 
-            //-----//
-            /*Intent intent = getIntent();
-        String intentDataTitle = "titlestuff";
-        String intentDataStatement = "statementsssff";
-        mydatabase.execSQL("INSERT INTO problems(title,statement,city) +VALUES("+intentDataTitle+","+intentDataStatement+
-                    ",'coimbatore')");
-                                    */
-            //----//
+           /* Intent intent = getIntent();
+            String intentDataTitle = intent.getStringExtra("title");
+            String intentDataStatement = intent.getStringExtra("problem");
+            title_list.add(intentDataTitle);
+            problems_list.add(intentDataStatement);*/
+
+        /*    int i = title_list.size();
+            while(i != 0){
+            if (title_list.get(i-1) != null && problems_list.get(i-1) != null){
+            mydatabase.execSQL("INSERT INTO problems(title,statement,city) VALUES('"+title_list.get(i-1)+"','"+problems_list.get(i-1)+
+                    "','chennai')");}
+            i = i-1;}
+*/
 
 
-    /* mydatabase.execSQL("INSERT INTO problems(title,statement,city) VALUES('contaminated water','lack of water in my area','coimbatore')");
-        mydatabase.execSQL("INSERT INTO problems(title,statement,city) VALUES('Lack of electricity','no current since flood','chennai')");*/
+     mydatabase.execSQL("INSERT INTO problems(title,statement,city) VALUES('contaminated water','lack of water in my area','coimbatore')");
+        mydatabase.execSQL("INSERT INTO problems(title,statement,city) VALUES('Lack of electricity','no current since flood','chennai')");
 
         //below code is to go through sqlite databse and retrive information
         Cursor c = mydatabase.rawQuery("SELECT * FROM problems",null);
@@ -70,6 +76,7 @@ public class MainActivity extends AppCompatActivity {
             Log.i("city",c.getString(cityIndex));
             title_list.add(c.getString(titleTndex));
             problems_list.add(c.getString(statementIndex));
+            //city_list.add(c.getString(cityIndex));
             c.moveToNext();
         }
 
@@ -81,12 +88,16 @@ public class MainActivity extends AppCompatActivity {
                     intent.putExtra("title",title_list.get(position));
                     intent.putExtra("problem",problems_list.get(position));
                     startActivity(intent);
-
-
             }
             });
-        }catch (Exception e){
-            e.printStackTrace();
-        }
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                return false;
+            }
+        });
+
+
     }
+//memememeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
 }
