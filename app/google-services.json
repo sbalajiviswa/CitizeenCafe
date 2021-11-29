@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "246731058803",
+    "project_id": "citizencafe-b15ea",
+    "storage_bucket": "citizencafe-b15ea.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:246731058803:android:c3b968350cc19d62d44406",
+        "android_client_info": {
+          "package_name": "com.example.citizencafe"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "246731058803-fgfejvj1qle5d7stj33vbbctpuakb1kk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCNrSIfb8CdH-0mAaEfk0OVLbZ9h7UmeAk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "246731058803-fgfejvj1qle5d7stj33vbbctpuakb1kk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,5 +1,6 @@
 package com.example.citizencafe;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -12,12 +13,19 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
+    static ArrayList<String> all_list = new ArrayList<>();
     static ArrayList<String> title_list = new ArrayList<>();
     static ArrayList<String> problems_list = new ArrayList<>();
-    static  ArrayList<String> city_list = new ArrayList<>();
+    //static  ArrayList<String> city_list = new ArrayList<>();
     static ArrayAdapter arrayAdapter;
 
 
@@ -27,20 +35,48 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(getApplicationContext(),newProblem.class);
         startActivity(intent);
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        city_list.add("coimbatore");
-        city_list.add("chennai");
+
         ListView listView = findViewById(R.id.listview);// the list view for showing the list of problem titles
         arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, title_list); // the list view 's array adapter
 
-            listView.setAdapter(arrayAdapter);
+
+        DatabaseReference myRef = FirebaseDatabase.getInstance("https://citizencafe-b15ea-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference("Problems");
+
+
+        myRef.addValueEventListener(new ValueEventListener() {
+
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+
+               for (DataSnapshot snapshot: dataSnapshot.getChildren()){
+
+
+                   title_list.add(snapshot.child("problrmTitle").getValue().toString());
+                   problems_list.add(snapshot.child("problemStatement").getValue().toString());
+                   //returning null object for some reason
+               }
+               arrayAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                // Failed to read value
+                Log.i("database", "Failed to read value.", error.toException());
+            }
+        });
+
+        listView.setAdapter(arrayAdapter);
             SQLiteDatabase mydatabase = this.openOrCreateDatabase("Users",MODE_PRIVATE,null);
             // created a table named problems in sqlite for storing tile, statement and city names
 
-        mydatabase.execSQL("DROP TABLE problems" );
+        //mydatabase.execSQL("DROP TABLE problems" );
         mydatabase.execSQL("CREATE TABLE IF NOT EXISTS problems (title VARCHAR, statement VARCHAR, city VARCHAR, id INTEGER PRIMARY KEY)");
 
             //Creating new problem is no longer a problem
@@ -61,8 +97,8 @@ public class MainActivity extends AppCompatActivity {
 */
 
 
-     mydatabase.execSQL("INSERT INTO problems(title,statement,city) VALUES('contaminated water','lack of water in my area','coimbatore')");
-        mydatabase.execSQL("INSERT INTO problems(title,statement,city) VALUES('Lack of electricity','no current since flood','chennai')");
+     /*mydatabase.execSQL("INSERT INTO problems(title,statement,city) VALUES('contaminated water','lack of water in my area','coimbatore')");
+        mydatabase.execSQL("INSERT INTO problems(title,statement,city) VALUES('Lack of electricity','no current since flood','chennai')");*/
 
         //below code is to go through sqlite databse and retrive information
         Cursor c = mydatabase.rawQuery("SELECT * FROM problems",null);
