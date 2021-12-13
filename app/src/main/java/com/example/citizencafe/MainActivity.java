@@ -54,13 +54,14 @@ public class MainActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 // This method is called once with the initial value and again
                 // whenever data at this location is updated.
-
+                    title_list.clear();
+                    problems_list.clear();
                for (DataSnapshot snapshot: dataSnapshot.getChildren()){
 
 
                    title_list.add(snapshot.child("problrmTitle").getValue().toString());
                    problems_list.add(snapshot.child("problemStatement").getValue().toString());
-                   //returning null object for some reason
+
                }
                arrayAdapter.notifyDataSetChanged();
             }
@@ -73,11 +74,11 @@ public class MainActivity extends AppCompatActivity {
         });
 
         listView.setAdapter(arrayAdapter);
-            SQLiteDatabase mydatabase = this.openOrCreateDatabase("Users",MODE_PRIVATE,null);
+            //SQLiteDatabase mydatabase = this.openOrCreateDatabase("Users",MODE_PRIVATE,null);
             // created a table named problems in sqlite for storing tile, statement and city names
 
         //mydatabase.execSQL("DROP TABLE problems" );
-        mydatabase.execSQL("CREATE TABLE IF NOT EXISTS problems (title VARCHAR, statement VARCHAR, city VARCHAR, id INTEGER PRIMARY KEY)");
+       // mydatabase.execSQL("CREATE TABLE IF NOT EXISTS problems (title VARCHAR, statement VARCHAR, city VARCHAR, id INTEGER PRIMARY KEY)");
 
             //Creating new problem is no longer a problem
             //Inent stuff is commented if you wish to make work feel free to
@@ -101,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
         mydatabase.execSQL("INSERT INTO problems(title,statement,city) VALUES('Lack of electricity','no current since flood','chennai')");*/
 
         //below code is to go through sqlite databse and retrive information
-        Cursor c = mydatabase.rawQuery("SELECT * FROM problems",null);
+       /* Cursor c = mydatabase.rawQuery("SELECT * FROM problems",null);
         int titleTndex = c.getColumnIndex("title");
         int statementIndex = c.getColumnIndex("statement");
         int cityIndex = c.getColumnIndex("city");
@@ -114,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
             problems_list.add(c.getString(statementIndex));
             //city_list.add(c.getString(cityIndex));
             c.moveToNext();
-        }
+        }*/
 
         //below code is to go to ProblemList activity after thr list is clicked
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
